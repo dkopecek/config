@@ -1,0 +1,183 @@
+set $mod Mod4
+set $tag1 "1 (dev)"
+set $tag2 "2 (web)"
+set $tag3 "3 (chat)"
+set $workspace_chat "3 (chat)" 
+
+font pango:DejaVu Sans Mono 8
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+##
+## Section: Run Stuff 
+##
+
+# Start a terminal in the domain of the currently active window
+bindsym $mod+Return exec qubes-i3-sensible-terminal
+bindsym $mod+Shift+Return exec i3-sensible-terminal
+
+# Start dmenu (a program launcher)
+bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu="dmenu -nb #d2d2d2 -nf #000000 -sb #63a0ff"
+
+# Lock screen
+bindsym Control+mod1+l exec --no-startup-id i3lock -d -c 123456
+
+##
+## Section: Windows
+##
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Window selection using cursor keys: 
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move windows around using cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Send windows to workspaces
+bindsym $mod+Shift+1 move container to workspace $tag1
+bindsym $mod+Shift+2 move container to workspace $tag2
+bindsym $mod+Shift+3 move container to workspace $tag3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+
+# Split in horizontal orientation
+bindsym $mod+h split h
+
+# Split in vertical orientation
+bindsym $mod+v split v
+
+# Enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# Change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# Focus the parent container
+bindsym $mod+a focus parent
+
+# Focus the child container
+#bindsym $mod+d focus child
+
+# Focus urgent window
+bindsym $mod+u [urgent=latest] focus
+
+##
+## Section: Workspaces
+##
+
+workspace_auto_back_and_forth yes
+
+# Switch to workspace
+bindsym $mod+1 workspace $tag1
+bindsym $mod+2 workspace $tag2
+bindsym $mod+3 workspace $tag3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# Move workspace to different output
+bindsym $mod+mod1+Right move workspace to output right
+bindsym $mod+mod1+Left move workspace to output left
+bindsym $mod+mod1+Up move workspace to output up
+bindsym $mod+mod1+Down move workspace to output down
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3?' -b 'Yes, exit i3' 'i3-msg exit'"
+
+#
+# App Specific Settings
+#
+for_window [class="Qubes-manager"] floating enable focus
+bindsym $mod+q exec qubes-manager
+
+for_window [class="gpg" title="Question"] floating enable focus
+
+# Not supported
+# for_window [window_type="dialog"] floating enable
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+  # These bindings trigger as soon as you enter the resize mode
+  # Pressing left will shrink the window’s width.
+  # Pressing right will grow the window’s width.
+  # Pressing up will shrink the window’s height.
+  # Pressing down will grow the window’s height.
+  bindsym j resize shrink width 10 px or 10 ppt
+  bindsym k resize grow height 10 px or 10 ppt
+  bindsym l resize shrink height 10 px or 10 ppt
+  bindsym semicolon resize grow width 10 px or 10 ppt
+
+  # same bindings, but for the arrow keys
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+  status_command qubes-i3status
+  position top
+  font pango:DejaVu Sans Mono 11
+  colors {
+    background #222222
+    statusline #ffffff
+    #class               #border #backgr #text
+    focused_workspace    #4c7899 #63a0ff #000000
+    active_workspace     #333333 #5f676a #ffffff
+    inactive_workspace   #222222 #333333 #888888
+    urgent_workspace     #BD2727 #E79E27 #000000
+  }
+}
+
+# Load Xresources
+exec --no-startup-id "xrdb -merge ~/.Xresources"
+
+# Use a screen locker
+exec --no-startup-id "xautolock -detectsleep -time 5 -locker 'i3lock -d -c 000000' -notify 30 -notifier \"notify-send -t 2000 'Locking screen in 30 seconds'\""
+
+# Hide the mouse cursor when typing
+exec --no-startup-id unclutter
+# Don't mess with my circardian cycle
+exec --no-startup-id redshift
+# Show battery status
+exec --no-startup-id batti
+
+# Make sure all xdg autostart entries are started, this is (among other things)
+# necessary to make sure transient vm's come up
+exec --no-startup-id qubes-i3-xdg-autostart
