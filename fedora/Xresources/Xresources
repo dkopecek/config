@@ -1,0 +1,19 @@
+*foreground: #ffffff
+*background: #111111
+
+XTerm*faceName: DejaVu Sans Mono for Powerline:size=11:antialias=true
+XTerm*renderFont: true
+XTerm*termName: xterm-256color
+XTerm*locale: true
+XTerm*utf8: true
+XTerm*metaSendsEscape: true
+XTerm*saveLines: 4096
+XTerm*borderWidth: 0
+XTerm*scrollBar:false
+XTerm*selectToClipboard: true
+XTerm*cursorBlink: true
+XTerm*bellIsUrgent: true
+XTerm*VT100.cutNewLine: false
+XTerm*VT100.cutToBeginningOfLine: false
+XTerm*VT100.charClass: 33:48,35:48,37:48,42:48;45-47:48,64:48,95:48,126:48
+
