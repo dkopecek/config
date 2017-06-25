@@ -32,12 +32,12 @@
  endif
 
  " CommandT key bindings
- imap <C-t> <C-O>:CommandT<CR>
- nmap <C-t> :CommandT<CR>
- imap <C-b> <C-O>:CommandTMRU<CR>
- nmap <C-b> :CommandTMRU<CR>
- imap <C-g> <C-O>:CommandTTag<CR>
- nmap <C-g> :CommandTTag<CR>
+ imap <C-t> <C-O>:CtrlP<CR>
+ nmap <C-t> :CtrlP<CR>
+ imap <C-b> <C-O>:CtrlPBuffer<CR>
+ nmap <C-b> :CtrlPBuffer<CR>
+ imap <C-g> <C-O>:CtrlPTag<CR>
+ nmap <C-g> :CtrlPTag<CR>
 
  " Colors
  set background=dark
